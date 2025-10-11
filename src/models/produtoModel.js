@@ -30,10 +30,8 @@ const produtoModel = { //objeto produtoModel
             // depois o tipo da variavel
             //
             await pool.request()
-                .input('nomeProduto', sql.VarChar(100), 
-                nomeProduto)
-                .input('precoProduto', sql.Decimal(10,2), 
-                precoProduto)
+                .input('nomeProduto', sql.VarChar(100), nomeProduto)
+                .input('precoProduto', sql.Decimal(10,2), precoProduto)
                 .query(querySQL)//passando a query para executar o comando 
         } catch (error) {
             console.error('Erro ao inserir produto: ', error)
