@@ -55,7 +55,7 @@ const clienteController = {
         } catch (error) {
             console.error('erro ao cadastrar cliente:', error)
             res.status(500).json({
-                error: 'Erro ao cadastrar produto'
+                error: 'Erro ao cadastrar cliente'
             })
         }
     }
