@@ -19,6 +19,25 @@ const produtoModel = { //objeto produtoModel
             throw error   
         }
     },
+                    // serve para buscar o ID de UM produto
+    buscarUm: async (idProduto) => {
+        try {
+                        //esperar a conexao para continuar o codigo
+            const pool = await getConnetion()
+
+            const querySQL = 
+            `SELECT * FROM Produtos WHERE idProduto = @idProduto`
+
+            const result = await pool.request()
+                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .query(querySQL)
+
+            return result.recordset
+        } catch (error) {
+            console.error('Erro ao buscar o produto: ', error)
+            throw error // afunçao que for chamar, everbere o erro aqui com o throw
+        }
+    },
 
     inserirProduto: async (nomeProduto, precoProduto) => {
         try {
@@ -36,6 +55,29 @@ const produtoModel = { //objeto produtoModel
         } catch (error) {
             console.error('Erro ao inserir produto: ', error)
             throw error; // passar para quem vai resolver esse erro 
+        }
+    },
+
+    atualizarProduto: async (idProduto, nomeProduto, precoProduto) => {
+        try {
+            //coletar uma conexao
+            const pool = await getConnetion()
+
+            // evitar sql injection
+            const querySQL = `
+                UPDATE Produtos
+                SET nomeProduto = @nomeProduto,
+                    precoProduto = @precoProduto
+                WHERE idProduto = @idProduto
+            `
+            await pool.request()
+                .input('nomeProduto', sql.VarChar(100), nomeProduto)
+                .input('precoProduto', sql.Decimal(10, 2), precoProduto)
+                .input('idProduto', sql.UniqueIdentifier, idProduto)
+                .query(querySQL)
+        } catch (error) {
+            console.error('Erro ao atualiza produto: ' , error)
+            throw error
         }
     }
 
