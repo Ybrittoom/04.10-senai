@@ -1,0 +1,88 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1760815116884
+  modified: 1760815116884
+  description: ""
+collection:
+  - name: biblioteca(yago)
+    meta:
+      id: fld_2251d3853869416c957069405a8e425a
+      created: 1761409540115
+      modified: 1761409549903
+      sortKey: -1761409542613.5
+      description: ""
+  - name: Produtos
+    meta:
+      id: fld_f92b8b0c533641cf8207f268065bd46c
+      created: 1761423413709
+      modified: 1761423413709
+      sortKey: -1761423413710
+      description: ""
+    children:
+      - url: localhost:8081/produtos/07F7AAF8-DBC6-4821-922D-482FF1825981
+        name: atualiza produto
+        meta:
+          id: req_210985f1a61b44c581b14e69e0993cc7
+          created: 1761423417313
+          modified: 1761424477364
+          isPrivate: false
+          description: ""
+          sortKey: -1761423417313
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            		"idProduto": "07F7AAF8-DBC6-4821-922D-482FF1825981",
+            		"nomeProduto": "Whey Protein Growth",
+            		"precoProduto": 100.00
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8081/produtos/
+        name: consultar produto
+        meta:
+          id: req_1085282862264961ade1d22610f82bc3
+          created: 1761423443386
+          modified: 1761424451681
+          isPrivate: false
+          description: ""
+          sortKey: -1761423443386
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1760815130375
+    modified: 1760815130375
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1760815130366
+    modified: 1760815130366
+    isPrivate: false
