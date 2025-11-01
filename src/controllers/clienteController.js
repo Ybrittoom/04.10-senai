@@ -1,4 +1,5 @@
 const {clienteModel} = require("../models/clienteModels")
+const bcrypt = require('bcrypt')//importando a biblioteca
 
 // nao esqueca de exportar no final usando 
 //MODULE.EXPORTS = {}
@@ -32,9 +33,9 @@ const clienteController = {
 
     criarCliente: async (req, res) => {
         try {
-            const { nomeCliente, cpfCliente} = req.body
+            const { nomeCliente, cpfCliente, emailCliente, senhaCliente} = req.body
 
-            if (nomeCliente == undefined || cpfCliente == undefined) {
+            if (nomeCliente == undefined || cpfCliente == undefined || emailCliente == undefined || senhaCliente == undefined) {
                 return res.status(400).json({
                     erro: 'Campos obrigatorios nao preenchidos'
                 })
@@ -47,7 +48,13 @@ const clienteController = {
                 return res.status(409).json({erro: 'CPF ja cadastrado'})
             }
 
-            await clienteModel.inserirCliente(nomeCliente, cpfCliente)
+            //CRIPTOGRAFRIA DA SENHA 
+            const saltRounds = 10
+            //gerar um hash com a senha do cliente
+            const senhaCriptografadaCliente = bcrypt.hashSync(senhaCliente, saltRounds)
+
+
+            await clienteModel.inserirCliente(nomeCliente, cpfCliente, emailCliente, senhaCriptografadaCliente)
 
             res.status(201).json({
                 message: 'cliente cadastrado com sucesso'

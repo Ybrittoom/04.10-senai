@@ -43,15 +43,17 @@ const clienteModel = {
     },
     
     //inserir um novo cliente
-    inserirCliente: async (nomeCliente, cpfCliente) => {
+    inserirCliente: async (nomeCliente, cpfCliente, emailCliente, senhaCliente) => {
         try {
             const pool = await getConnetion()// pegando uma conexao sql
 
-            let querySQL = 'INSERT INTO clientes (nomeCliente, cpfCliente) VALUES (@nomeCliente, @cpfCliente)'
+            let querySQL = 'INSERT INTO clientes (nomeCliente, cpfCliente, emailCliente, senhaCliente) VALUES (@nomeCliente, @cpfCliente, @emailCliente, @senhaCliente)'
 
             await pool.request()
                 .input('nomeCliente', sql.VarChar(100), nomeCliente)
                 .input('cpfCliente', sql.VarChar(11), cpfCliente)
+                .input('emailCliente', sql.VarChar(200), emailCliente)
+                .input('senhaCliente', sql.VarChar(255), senhaCliente)
                 .query(querySQL);
         } catch (error) {
             console.error('Erro ao inserir cliente: ', error)
