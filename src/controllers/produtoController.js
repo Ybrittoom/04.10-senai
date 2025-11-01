@@ -57,7 +57,7 @@ const produtoController = {
         try {
             //path parament
             const { idProduto } = req.params
-            const { nomeProduto, precoProduto } = req.body 
+            const { nomeProduto, precoProduto } = req.body
 
             //validaçao de UUID
             if (idProduto.length != 36) {// O ID tem que ter exatamente 36 caracteres
@@ -89,7 +89,41 @@ const produtoController = {
         } catch (error) {
             console.error('Erro ao atualiza produto: ', error)
             res.status(500).json({
-                message: 'Erro no servidor ao atualizar o produto:' , error
+                message: 'Erro no servidor ao atualizar o produto:', error
+            })
+        }
+    },
+
+    deletarProduto: async (req, res) => {
+        try {
+            //pegar o id do produto que vai ser excluir 
+            const { idProduto } = req.params
+
+            //validaçao de UUID
+            if (idProduto.length != 36) {// O ID tem que ter exatamente 36 caracteres
+                return res.status(400).json({
+                    erro: 'ID do produto invalido!'
+                })
+            }
+
+            const produto = await produtoModel.buscarUm(idProduto)
+
+            //verifica se o produto existe 
+            if (!produto || produto.length !== 1) {
+                return res.status(404).json({
+                    erro: 'Produto nao encontrado'
+                })
+            }
+
+            await produtoModel.deletarProduto(idProduto);
+
+            res.status(200).json({
+                message: "Produto deletado com sucesso"
+            })
+        } catch (error) {
+            console.error("Erro ao deletar produto: ", error)
+            res.status(500).json({
+                erro: 'Erro interno no servidor ao deletar produto '
             })
         }
     }

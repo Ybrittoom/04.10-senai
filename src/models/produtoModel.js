@@ -79,6 +79,25 @@ const produtoModel = { //objeto produtoModel
             console.error('Erro ao atualiza produto: ' , error)
             throw error
         }
+    },
+
+    deletarProduto: async (idProduto) => {
+        try {
+            //SEMPRE fazer conexao com o banco de dados
+            const pool = await getConnetion()
+
+            const querySQL = `
+                DELETE FROM Produtos 
+                WHERE idProduto = @idProduto
+            `
+
+            await pool.request()
+                .input("idProduto", sql.UniqueIdentifier, idProduto)
+                .query(querySQL /*comando para realizar a quary do banco de dados*/)
+        } catch (error) {
+            console.error('Erro ao deletar produto: ', error)
+            throw error;
+        }
     }
 
 };
