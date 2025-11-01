@@ -4,7 +4,16 @@ const { sql, getConnetion } = require("../config/db")
 
 const produtoModel = { //objeto produtoModel
     //metodo
-    buscarTodos: async() => {
+
+    /***
+     * Modelo que busca todos os produtos no banco de dados
+     * 
+     * @async
+     * @function buscarTodos
+     * @returns {Promise<Array>} Retorna uma lista com todos os produtos
+     * @throws Mostra no console e propaga o erro caso a busca falhe.
+     */
+    buscarTodos: async () => {
         try {
             const pool = await getConnetion() //coletando uma funçao
 
@@ -14,19 +23,26 @@ const produtoModel = { //objeto produtoModel
 
             return result.recordset; //retorna uma lista nao sei doq kkkkkkkkkkk
         } catch (error) {
-            console.error('Erro ao buscar produtos:' , error)
+            console.error('Erro ao buscar produtos:', error)
             //passar o erro pro controller, ele que tem que ficar vendo os erros
-            throw error   
+            throw error
         }
     },
-                    // serve para buscar o ID de UM produto
+    // serve para buscar o ID de UM produto
+    /**
+     * Modelo que busca um produto atravez do ID
+     * @async
+     * @function buscarUm
+     * @returns {Promise<Array>} Retorna o produto do ID que o usuario digitou
+     * @throws Mostra no console o erro
+     */
     buscarUm: async (idProduto) => {
         try {
-                        //esperar a conexao para continuar o codigo
+            //esperar a conexao para continuar o codigo
             const pool = await getConnetion()
 
-            const querySQL = 
-            `SELECT * FROM Produtos WHERE idProduto = @idProduto`
+            const querySQL =
+                `SELECT * FROM Produtos WHERE idProduto = @idProduto`
 
             const result = await pool.request()
                 .input('idProduto', sql.UniqueIdentifier, idProduto)
@@ -50,7 +66,7 @@ const produtoModel = { //objeto produtoModel
             //
             await pool.request()
                 .input('nomeProduto', sql.VarChar(100), nomeProduto)
-                .input('precoProduto', sql.Decimal(10,2), precoProduto)
+                .input('precoProduto', sql.Decimal(10, 2), precoProduto)
                 .query(querySQL)//passando a query para executar o comando 
         } catch (error) {
             console.error('Erro ao inserir produto: ', error)
@@ -76,7 +92,7 @@ const produtoModel = { //objeto produtoModel
                 .input('idProduto', sql.UniqueIdentifier, idProduto)
                 .query(querySQL)
         } catch (error) {
-            console.error('Erro ao atualiza produto: ' , error)
+            console.error('Erro ao atualiza produto: ', error)
             throw error
         }
     },
