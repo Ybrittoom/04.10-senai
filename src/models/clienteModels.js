@@ -59,6 +59,26 @@ const clienteModel = {
             console.error('Erro ao inserir cliente: ', error)
             throw error
         }
+    },
+
+     //VERIFICAR SE O EMAIL EXISTE 
+    buscarPorEmail: async (emailCliente) => {
+        try {
+            const pool = await getConnetion()
+            
+            let querySQL = `
+                SELECT * FROM clientes WHERE emailCliente = @emailCliente
+            `
+            
+            const result = await pool.request()
+            .input('emailCliente', sql.VarChar(200), emailCliente)
+            .query(querySQL)
+            
+            return result.recordset;
+        } catch (error) {
+            console.error('Erro ao verificar o CPF: ', error)
+            throw error
+        }
     }
 
 }
